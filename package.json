@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npx tsc",
-    "prepublishOnly": "npm run build",
-    "tests": "jest"
+    "build": "npm run clean && tsc",
+    "test": "jest",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",

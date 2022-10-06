@@ -46,8 +46,6 @@ function parseObjectLiteralAsInterface<T extends ObjectToParse>(
       result[key] = value
     } else {
       const parser = getLiteralParserByKind(objectToParse[key] as LiteralKind)
-      if (parser === undefined) return
-
       const value = parser(paChildren[1])
       if (value === undefined) return
       result[key] = value

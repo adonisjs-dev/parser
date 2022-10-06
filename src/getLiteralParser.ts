@@ -8,18 +8,15 @@ import { parseStringLiteral, parseNumericLiteral, parseBooleanLiteral } from './
  */
 export default function getLiteralParserByKind<T extends LiteralKind>(
   kind: T
-): ((node: Node) => KindToTypeMappings[T] | undefined) | undefined {
+): (node: Node) => KindToTypeMappings[T] | undefined {
   switch (kind) {
     case SyntaxKind.StringLiteral:
       return parseStringLiteral as (node: Node) => KindToTypeMappings[T] | undefined
-      break
     case SyntaxKind.NumericLiteral:
       return parseNumericLiteral as (node: Node) => KindToTypeMappings[T] | undefined
-      break
     case SyntaxKind.BooleanKeyword:
       return parseBooleanLiteral as (node: Node) => KindToTypeMappings[T] | undefined
-      break
+    default:
+      return parseStringLiteral as (node: Node) => KindToTypeMappings[T] | undefined
   }
-
-  return undefined
 }

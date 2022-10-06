@@ -15,8 +15,6 @@ function parseArrayLiteralAsKind<T extends LiteralKind>(node: Node, kind: T): Ar
   const elements = arrayLiteral.getElements()
   elements.forEach((elNode) => {
     const parser = getLiteralParserByKind(kind)
-    if (parser === undefined) return
-
     const value = parser(elNode)
     if (value === undefined) return
 
