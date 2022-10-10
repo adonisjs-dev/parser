@@ -1,14 +1,14 @@
 import { SyntaxKind, Node } from 'ts-morph'
-import ObjectToParse from '../interfaces/ObjectToParse'
-import getLiteralParserByKind from '../getLiteralParser'
-import { parseArrayLiteralAsKind } from './parseArrayLiteral'
-import LiteralKind from '../types/LiteralKind'
-import KindToTypeMappings from '../types/KindToTypeMappings'
+import ObjectToParse from './interfaces/ObjectToParse'
+import { getLiteralParserByKind } from './getLiteralParser'
+import { parseArrayNodeAsKind } from './parseArrayNode'
+import LiteralKind from './types/LiteralKind'
+import KindToTypeMappings from './types/KindToTypeMappings'
 
 /**
- * Parse an object literal expression node as Node with the help of an interface.
+ * Parse an object expression node with the help of an interface.
  */
-function parseObjectLiteralAsInterface<T extends ObjectToParse>(
+function parseObjectNodeAsInterface<T extends ObjectToParse>(
   node: Node,
   objectToParse: T
 ):
@@ -17,7 +17,7 @@ function parseObjectLiteralAsInterface<T extends ObjectToParse>(
         ? Array<KindToTypeMappings[T[key][0]]>
         : T[key] extends LiteralKind
         ? KindToTypeMappings[T[key]]
-        : ReturnType<typeof parseObjectLiteralAsInterface>
+        : ReturnType<typeof parseObjectNodeAsInterface>
     }
   | undefined {
   const objectLiteral = node.asKind(SyntaxKind.ObjectLiteralExpression)
@@ -37,11 +37,11 @@ function parseObjectLiteralAsInterface<T extends ObjectToParse>(
 
     if (Array.isArray(objectToParse[key])) {
       const kind = objectToParse[key] as Array<LiteralKind>
-      const value = parseArrayLiteralAsKind(paChildren[1], kind[0])
+      const value = parseArrayNodeAsKind(paChildren[1], kind[0])
       if (value === undefined) return
       result[key] = value
     } else if (typeof objectToParse[key] === 'object') {
-      const value = parseObjectLiteralAsInterface(paChildren[1], objectToParse[key] as ObjectToParse)
+      const value = parseObjectNodeAsInterface(paChildren[1], objectToParse[key] as ObjectToParse)
       if (value === undefined) return
       result[key] = value
     } else {
@@ -57,8 +57,8 @@ function parseObjectLiteralAsInterface<T extends ObjectToParse>(
       ? Array<KindToTypeMappings[T[key][0]]>
       : T[key] extends LiteralKind
       ? KindToTypeMappings[T[key]]
-      : ReturnType<typeof parseObjectLiteralAsInterface>
+      : ReturnType<typeof parseObjectNodeAsInterface>
   }
 }
 
-export { parseObjectLiteralAsInterface }
+export { parseObjectNodeAsInterface }

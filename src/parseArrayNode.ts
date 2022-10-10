@@ -1,12 +1,12 @@
 import { SyntaxKind, Node } from 'ts-morph'
-import KindToTypeMappings from '../types/KindToTypeMappings'
-import getLiteralParserByKind from '../getLiteralParser'
-import LiteralKind from '../types/LiteralKind'
+import KindToTypeMappings from './types/KindToTypeMappings'
+import { getLiteralParserByKind } from './getLiteralParser'
+import LiteralKind from './types/LiteralKind'
 
 /**
- * Parse an array literal expression node as Node with the help of SyntaxKind.
+ * Parse an array expression node with the help of SyntaxKind.
  */
-function parseArrayLiteralAsKind<T extends LiteralKind>(node: Node, kind: T): Array<KindToTypeMappings[T]> | undefined {
+function parseArrayNodeAsKind<T extends LiteralKind>(node: Node, kind: T): Array<KindToTypeMappings[T]> | undefined {
   const arrayLiteral = node.asKind(SyntaxKind.ArrayLiteralExpression)
   if (arrayLiteral === undefined) return undefined
 
@@ -24,4 +24,4 @@ function parseArrayLiteralAsKind<T extends LiteralKind>(node: Node, kind: T): Ar
   return array
 }
 
-export { parseArrayLiteralAsKind }
+export { parseArrayNodeAsKind }

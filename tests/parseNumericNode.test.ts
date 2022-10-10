@@ -1,7 +1,7 @@
 import { Project, SourceFile } from 'ts-morph'
-import { parseNumericLiteral, parseNumericLiteralOrThrow } from '../../src/literals/parseNumericLiteral'
+import { parseNumericNode, parseNumericNodeOrThrow } from '../src/parseNumericNode'
 
-describe('Parse a numeric literal:', () => {
+describe('Parse a numeric literal node:', () => {
   let project: Project
   let file1: SourceFile
   let file2: SourceFile
@@ -12,11 +12,11 @@ describe('Parse a numeric literal:', () => {
     file2 = project.createSourceFile('file2.ts', `const cityCode = 'Novosibirsk'\n`)
   })
 
-  describe('Parse a numeric literal or undefined:', () => {
+  describe('Parse a numeric literal node or undefined:', () => {
     test('NumericLiteral node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('cityCode')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseNumericLiteral(vdChildren[1])
+      const value = parseNumericNode(vdChildren[1])
 
       expect(value).toBe(54)
     })
@@ -24,17 +24,17 @@ describe('Parse a numeric literal:', () => {
     test('incorrect node', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('cityCode')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseNumericLiteral(vdChildren[1])
+      const value = parseNumericNode(vdChildren[1])
 
       expect(value).toBeUndefined()
     })
   })
 
-  describe('Parse a numeric literal or throw:', () => {
+  describe('Parse a numeric literal node or throw:', () => {
     test('NumericLiteral node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('cityCode')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseNumericLiteralOrThrow(vdChildren[1])
+      const value = parseNumericNodeOrThrow(vdChildren[1])
 
       expect(value).toBe(54)
     })
@@ -43,7 +43,7 @@ describe('Parse a numeric literal:', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('cityCode')
       const vdChildren = vdNode.forEachChildAsArray()
 
-      expect(() => parseNumericLiteralOrThrow(vdChildren[1])).toThrow()
+      expect(() => parseNumericNodeOrThrow(vdChildren[1])).toThrow()
     })
   })
 })

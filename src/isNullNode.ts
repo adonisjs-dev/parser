@@ -1,8 +1,8 @@
 import { SyntaxKind, Node } from 'ts-morph'
 
 /**
- * Is a null literal node.
+ * Is a null node.
  */
-export default function isNullLiteral(node: Node): boolean {
+export default function isNullNode(node: Node): boolean {
   return node.isKind(SyntaxKind.NullKeyword)
 }

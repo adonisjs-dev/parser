@@ -1,8 +1,8 @@
 import { Project, SourceFile, SyntaxKind } from 'ts-morph'
-import { parseObjectLiteralAsInterface } from '../../src/literals/parseObjectLiteral'
-import ObjectToParse from '../../src/interfaces/ObjectToParse'
+import { parseObjectNodeAsInterface } from '../src/parseObjectNode'
+import ObjectToParse from '../src/interfaces/ObjectToParse'
 
-describe('Parse an object literal expression as an interface:', () => {
+describe('Parse an object expression as an interface:', () => {
   let project: Project
   let file1: SourceFile
   let file2: SourceFile
@@ -70,7 +70,7 @@ describe('Parse an object literal expression as an interface:', () => {
   test('full object', () => {
     const vdNode = file1.getVariableDeclarationOrThrow('person')
     const vdChildren = vdNode.forEachChildAsArray()
-    const value = parseObjectLiteralAsInterface(vdChildren[1], personObj)
+    const value = parseObjectNodeAsInterface(vdChildren[1], personObj)
 
     const person = {
       name: 'Vlad',
@@ -89,7 +89,7 @@ describe('Parse an object literal expression as an interface:', () => {
   test('partial object', () => {
     const vdNode = file2.getVariableDeclarationOrThrow('person')
     const vdChildren = vdNode.forEachChildAsArray()
-    const value = parseObjectLiteralAsInterface(vdChildren[1], personObj)
+    const value = parseObjectNodeAsInterface(vdChildren[1], personObj)
 
     const person = {
       age: 11,
@@ -104,7 +104,7 @@ describe('Parse an object literal expression as an interface:', () => {
   test('empty object', () => {
     const vdNode = file3.getVariableDeclarationOrThrow('person')
     const vdChildren = vdNode.forEachChildAsArray()
-    const value = parseObjectLiteralAsInterface(vdChildren[1], personObj)
+    const value = parseObjectNodeAsInterface(vdChildren[1], personObj)
 
     expect(value).toEqual({})
   })
@@ -112,7 +112,7 @@ describe('Parse an object literal expression as an interface:', () => {
   test('incorrect node', () => {
     const vdNode = file4.getVariableDeclarationOrThrow('person')
     const vdChildren = vdNode.forEachChildAsArray()
-    const value = parseObjectLiteralAsInterface(vdChildren[1], personObj)
+    const value = parseObjectNodeAsInterface(vdChildren[1], personObj)
 
     expect(value).toBeUndefined()
   })

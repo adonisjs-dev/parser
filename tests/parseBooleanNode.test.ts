@@ -1,7 +1,7 @@
 import { Project, SourceFile } from 'ts-morph'
-import { parseBooleanLiteral, parseBooleanLiteralOrThrow } from '../../src/literals/parseBooleanLiteral'
+import { parseBooleanNode, parseBooleanNodeOrThrow } from '../src/parseBooleanNode'
 
-describe('Parse a boolean literal:', () => {
+describe('Parse a boolean literal node:', () => {
   let project: Project
   let file1: SourceFile
   let file2: SourceFile
@@ -14,11 +14,11 @@ describe('Parse a boolean literal:', () => {
     file3 = project.createSourceFile('file3.ts', `const isCity = 0\n`)
   })
 
-  describe('Parse a boolean literal or undefined:', () => {
+  describe('Parse a boolean literal node or undefined:', () => {
     test('TrueKeyword node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseBooleanLiteral(vdChildren[1])
+      const value = parseBooleanNode(vdChildren[1])
 
       expect(value).toBe(true)
     })
@@ -26,7 +26,7 @@ describe('Parse a boolean literal:', () => {
     test('FalseKeyword node', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseBooleanLiteral(vdChildren[1])
+      const value = parseBooleanNode(vdChildren[1])
 
       expect(value).toBe(false)
     })
@@ -34,17 +34,17 @@ describe('Parse a boolean literal:', () => {
     test('incorrect node', () => {
       const vdNode = file3.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseBooleanLiteral(vdChildren[1])
+      const value = parseBooleanNode(vdChildren[1])
 
       expect(value).toBeUndefined()
     })
   })
 
-  describe('Parse a boolean literal or throw:', () => {
+  describe('Parse a boolean literal node or throw:', () => {
     test('TrueKeyword node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseBooleanLiteralOrThrow(vdChildren[1])
+      const value = parseBooleanNodeOrThrow(vdChildren[1])
 
       expect(value).toBe(true)
     })
@@ -52,7 +52,7 @@ describe('Parse a boolean literal:', () => {
     test('FalseKeyword node', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseBooleanLiteralOrThrow(vdChildren[1])
+      const value = parseBooleanNodeOrThrow(vdChildren[1])
 
       expect(value).toBe(false)
     })
@@ -61,7 +61,7 @@ describe('Parse a boolean literal:', () => {
       const vdNode = file3.getVariableDeclarationOrThrow('isCity')
       const vdChildren = vdNode.forEachChildAsArray()
 
-      expect(() => parseBooleanLiteralOrThrow(vdChildren[1])).toThrow()
+      expect(() => parseBooleanNodeOrThrow(vdChildren[1])).toThrow()
     })
   })
 })
