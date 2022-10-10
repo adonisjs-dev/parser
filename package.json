@@ -1,6 +1,6 @@
 {
   "name": "@adonis-dev/parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parser for reading and modifying typescript files based on the ts-morph module and extending its functionality.",
   "main": "dist/index.js",
   "files": [
