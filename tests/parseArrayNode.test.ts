@@ -1,7 +1,7 @@
 import { Project, SourceFile, SyntaxKind } from 'ts-morph'
-import { parseArrayLiteralAsKind } from '../../src/literals/parseArrayLiteral'
+import { parseArrayNodeAsKind } from '../src/parseArrayNode'
 
-describe('Parse an array literal expression as kind:', () => {
+describe('Parse an array expression as kind:', () => {
   let project: Project
 
   let file1full: SourceFile
@@ -36,11 +36,11 @@ describe('Parse an array literal expression as kind:', () => {
     file4 = project.createSourceFile('file4.ts', `const notArr = false\n`)
   })
 
-  describe('Parse an array literal expression as StringLiteral kind:', () => {
+  describe('Parse an array expression as StringLiteral kind:', () => {
     test('full of StringLiteral nodes', () => {
       const vdNode = file1full.getVariableDeclarationOrThrow('states')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.StringLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.StringLiteral)
 
       expect(value).toEqual(['Washington', 'California', 'Florida'])
     })
@@ -48,7 +48,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('part of StringLiteral nodes', () => {
       const vdNode = file1part.getVariableDeclarationOrThrow('states')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.StringLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.StringLiteral)
 
       expect(value).toEqual(['Washington', 'Florida'])
     })
@@ -56,7 +56,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('empty array', () => {
       const vdNode = file1empty.getVariableDeclarationOrThrow('states')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.StringLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.StringLiteral)
 
       expect(value).toEqual([])
     })
@@ -64,17 +64,17 @@ describe('Parse an array literal expression as kind:', () => {
     test('incorrect node', () => {
       const vdNode = file4.getVariableDeclarationOrThrow('notArr')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.StringLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.StringLiteral)
 
       expect(value).toBeUndefined()
     })
   })
 
-  describe('Parse an array literal expression as NumericLiteral kind:', () => {
+  describe('Parse an array expression as NumericLiteral kind:', () => {
     test('full of NumericLiteral nodes', () => {
       const vdNode = file2full.getVariableDeclarationOrThrow('statesPop')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
 
       expect(value).toEqual([7705281, 39538223, 21538187])
     })
@@ -82,7 +82,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('part of NumericLiteral nodes', () => {
       const vdNode = file2part.getVariableDeclarationOrThrow('statesPop')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
 
       expect(value).toEqual([39538223])
     })
@@ -90,7 +90,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('empty array', () => {
       const vdNode = file2empty.getVariableDeclarationOrThrow('statesPop')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
 
       expect(value).toEqual([])
     })
@@ -98,17 +98,17 @@ describe('Parse an array literal expression as kind:', () => {
     test('incorrect node', () => {
       const vdNode = file4.getVariableDeclarationOrThrow('notArr')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.NumericLiteral)
 
       expect(value).toBeUndefined()
     })
   })
 
-  describe('Parse an array literal expression as BooleanKeyword kind:', () => {
+  describe('Parse an array expression as BooleanKeyword kind:', () => {
     test('full of BooleanKeyword nodes', () => {
       const vdNode = file3full.getVariableDeclarationOrThrow('flags')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
 
       expect(value).toEqual([true, false, true])
     })
@@ -116,7 +116,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('part of BooleanKeyword nodes', () => {
       const vdNode = file3part.getVariableDeclarationOrThrow('flags')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
 
       expect(value).toEqual([false, true])
     })
@@ -124,7 +124,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('empty array', () => {
       const vdNode = file3empty.getVariableDeclarationOrThrow('flags')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
 
       expect(value).toEqual([])
     })
@@ -132,7 +132,7 @@ describe('Parse an array literal expression as kind:', () => {
     test('incorrect node', () => {
       const vdNode = file4.getVariableDeclarationOrThrow('notArr')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseArrayLiteralAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
+      const value = parseArrayNodeAsKind(vdChildren[1], SyntaxKind.BooleanKeyword)
 
       expect(value).toBeUndefined()
     })

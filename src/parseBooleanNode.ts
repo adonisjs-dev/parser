@@ -1,9 +1,9 @@
 import { SyntaxKind, Node } from 'ts-morph'
 
 /**
- * Parse true or false literal nodes as Node.
+ * Parse true or false nodes.
  */
-function parseBooleanLiteral(node: Node): boolean | undefined {
+function parseBooleanNode(node: Node): boolean | undefined {
   const trueLiteral = node.asKind(SyntaxKind.TrueKeyword)
   if (trueLiteral) return trueLiteral.getLiteralValue()
 
@@ -14,9 +14,9 @@ function parseBooleanLiteral(node: Node): boolean | undefined {
 }
 
 /**
- * Parse true or false literal nodes as Node or throw an error.
+ * Parse true or false nodes or throw an error.
  */
-function parseBooleanLiteralOrThrow(node: Node): boolean {
+function parseBooleanNodeOrThrow(node: Node): boolean {
   const trueLiteral = node.asKind(SyntaxKind.TrueKeyword)
   if (trueLiteral) return trueLiteral.getLiteralValue()
 
@@ -24,4 +24,4 @@ function parseBooleanLiteralOrThrow(node: Node): boolean {
   return falseLiteral.getLiteralValue()
 }
 
-export { parseBooleanLiteral, parseBooleanLiteralOrThrow }
+export { parseBooleanNode, parseBooleanNodeOrThrow }

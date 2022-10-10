@@ -1,7 +1,7 @@
 import { Project, SourceFile } from 'ts-morph'
-import { parseStringLiteral, parseStringLiteralOrThrow } from '../../src/literals/parseStringLiteral'
+import { parseStringNode, parseStringNodeOrThrow } from '../src/parseStringNode'
 
-describe('Parse a string literal:', () => {
+describe('Parse a string literal node:', () => {
   let project: Project
   let file1: SourceFile
   let file2: SourceFile
@@ -12,11 +12,11 @@ describe('Parse a string literal:', () => {
     file2 = project.createSourceFile('file2.ts', `const city = 54\n`)
   })
 
-  describe('Parse a string literal or undefined:', () => {
+  describe('Parse a string literal node or undefined:', () => {
     test('StringLiteral node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('city')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseStringLiteral(vdChildren[1])
+      const value = parseStringNode(vdChildren[1])
 
       expect(value).toBe('Novosibirsk')
     })
@@ -24,17 +24,17 @@ describe('Parse a string literal:', () => {
     test('incorrect node', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('city')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseStringLiteral(vdChildren[1])
+      const value = parseStringNode(vdChildren[1])
 
       expect(value).toBeUndefined()
     })
   })
 
-  describe('Parse a string literal or throw:', () => {
+  describe('Parse a string literal node or throw:', () => {
     test('StringLiteral node', () => {
       const vdNode = file1.getVariableDeclarationOrThrow('city')
       const vdChildren = vdNode.forEachChildAsArray()
-      const value = parseStringLiteralOrThrow(vdChildren[1])
+      const value = parseStringNodeOrThrow(vdChildren[1])
 
       expect(value).toBe('Novosibirsk')
     })
@@ -43,7 +43,7 @@ describe('Parse a string literal:', () => {
       const vdNode = file2.getVariableDeclarationOrThrow('city')
       const vdChildren = vdNode.forEachChildAsArray()
 
-      expect(() => parseStringLiteralOrThrow(vdChildren[1])).toThrow()
+      expect(() => parseStringNodeOrThrow(vdChildren[1])).toThrow()
     })
   })
 })
